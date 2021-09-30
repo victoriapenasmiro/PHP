@@ -1,0 +1,1 @@
+<?php  echo 'Hola mundo Rafa'; phpinfo(); ?>
