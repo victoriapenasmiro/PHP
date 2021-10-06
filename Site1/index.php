@@ -18,8 +18,8 @@
             $num = 0;
 
             for ($x = 0; $x <= 11; $x++) {
-                $aux = 0;
-                echo "<tr>";
+                $aux = 0; //incremental para multiplicar
+                echo "<tr style='color:red;'>";
 
                 if ($x === 0) {
                     echo "<td></td>";
