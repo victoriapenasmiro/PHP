@@ -1,49 +1,114 @@
+<!-- Estados de las variables de forma dinámica -->
+<style>
+
+    table, td, th {
+        border: 1px solid;
+        padding: 3px;
+    }
+
+    th {
+        font-weight: 800;
+    }
+
+</style>
+
+<?php
+echo "<h1>ESTADOS DE LAS VARIABLES</h1>";
+
+$output = "<table><tr><th>Contenido de \$var</th><th>isset(\$var)</th><th>empty(\$var)</th><th>(bool) \$var</th></tr>";
+
+//listado de valores a analizar
+$values_check = array(null, 0, true, false, "0", "", "foo", array(), /* 'functUnset' => function () {
+          unset($GLOBALS['var']);
+
+          if (!isset($GLOBALS['var'])) {
+          return 'undefined';
+          }
+          } */);
+
+//ejemplo ejecución function dentro de una variable
+//echo $values_check['functUnset']();
 
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tablas de multiplicar</title>
-        <style> td {
-                border: 1px solid;
-            }</style>
-    </head>
-    <body>
-        <h1>Tablas de multiplicar</h1>
-        <table style="border: 1px solid;">
-            <?php
-            $num = 0;
+for ($i = 0; $i < count($values_check); $i++) {
 
-            for ($x = 0; $x <= 11; $x++) {
-                $aux = 0; //incremental para multiplicar
-                echo "<tr style='color:red;'>";
+    $output .= "<tr>" . getNameValues($values_check[$i]) . "<td>";
 
-                if ($x === 0) {
-                    echo "<td></td>";
-                } else {
-                    echo "<td>" . $num - 1 . "</td>";
-                }
+    checkValue($values_check[$i]);
 
-                while ($aux <= 10) {
-                    if ($x === 0) {
-                        echo "<td>$aux</td>";
-                    } else {
-                        echo "<td>" . ($num - 1) * $aux. "</td>";
-                    }
+    if ($i === count($values_check) - 1) {
+        $output .= "<tr><td>uset(\$var)</td><td>";
+        $var = "var inicializada";
+        unset($var);
+        error_reporting(0); //elimino el warning que muestra al utlizar $var al desactivarla.
+        checkValue($var);
+    }
+ 
+    $output .= "</tr>";
+}
 
-                    $aux++;
-                }
+/**
+ * Vemos el valor de la variable recibida por parámetros con isset, empty y (bool)
+ * 
+ * @param type $value variable a revisar
+ */
+function checkValue($value) {
 
-                echo "</tr>";
+    isset($value) ? $GLOBALS['output'] .= "true" : $GLOBALS['output'] .= "false";
 
-                $num++;
-            }
-            ?>
-        </table>
-    </body>
-</html>
+    $GLOBALS['output'] .= "</td><td>";
 
+    empty($value) ? $GLOBALS['output'] .= "true" : $GLOBALS['output'] .= "false";
 
+    $GLOBALS['output'] .= "</td><td>";
+
+    (bool) $value ? $GLOBALS['output'] .= "true" : $GLOBALS['output'] .= "false";
+
+    $GLOBALS['output'] .= "</td>";
+}
+
+/**
+ * Devuelve el nombre de las variable a analizar
+ * @param type $value
+ * @return string primera celda
+ */
+function getNameValues($value) {
+
+    $output = "<td>";
+
+    if (!isset($value)) {
+        $output .= "null";
+    } elseif ($value === true) {
+        $output .= "true";
+    } elseif ($value === false) {
+        $output .= "false";
+    } elseif ($value === "0") {
+        $output .= "'0'";
+    } elseif ($value === "") {
+        $output .= "''";
+    } elseif ($value === array()) {
+        $output .= "array()";
+    } else {
+        $output .= $value;
+    }
+
+    $output .= "</td>";
+
+    return $output;
+}
+
+function prueba() {
+
+    if (isset($GLOBALS['var'])) {
+        echo 'true';
+
+        return true;
+    }
+
+    echo 'false';
+
+    return false;
+}
+
+$output .= "</table>";
+echo $output;
