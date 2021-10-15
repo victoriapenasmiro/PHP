@@ -18,17 +18,7 @@ echo "<h1>ESTADOS DE LAS VARIABLES</h1>";
 $output = "<table><tr><th>Contenido de \$var</th><th>isset(\$var)</th><th>empty(\$var)</th><th>(bool) \$var</th></tr>";
 
 //listado de valores a analizar
-$values_check = array(null, 0, true, false, "0", "", "foo", array(), /* 'functUnset' => function () {
-          unset($GLOBALS['var']);
-
-          if (!isset($GLOBALS['var'])) {
-          return 'undefined';
-          }
-          } */);
-
-//ejemplo ejecución function dentro de una variable
-//echo $values_check['functUnset']();
-
+$values_check = array(null, 0, true, false, "0", "", "foo", array());
 
 for ($i = 0; $i < count($values_check); $i++) {
 
@@ -97,18 +87,19 @@ function getNameValues($value) {
     return $output;
 }
 
-function prueba() {
 
-    if (isset($GLOBALS['var'])) {
-        echo 'true';
-
-        return true;
-    }
-
-    echo 'false';
-
-    return false;
-}
-
-$output .= "</table>";
 echo $output;
+
+/* 
+ * Ejemplo de función para almacenar en una array
+ * 
+ * 'functUnset' => function () {
+          unset($GLOBALS['var']);
+
+          if (!isset($GLOBALS['var'])) {
+          return 'undefined';
+          }
+          } */
+
+//ejemplo ejecución function dentro de una variable
+//echo $values_check['functUnset']();

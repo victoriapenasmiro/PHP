@@ -1,1 +1,1 @@
-<?php  echo 'Hola mundo'; phpinfo(); ?>
+<?php  echo 'Hola mundo'; phpinfo(); xdebug_info(); ?>
