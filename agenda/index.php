@@ -6,6 +6,7 @@
     </head>
     <body>
         <?php
+
         $nombre = $telefono = $agenda = "";
 
         if (filter_input(INPUT_GET, "submit")) {
