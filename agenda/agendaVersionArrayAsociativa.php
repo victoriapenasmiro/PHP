@@ -18,34 +18,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         }
 
         if (filter_input(INPUT_GET, "submit")) {
-            $nombre = filter_input(INPUT_GET, "nombre");
-            $telefono = filter_input(INPUT_GET, "telefono");
-
+            $nombre = trim(filter_input(INPUT_GET, "nombre"));
+            $telefono = filter_input(INPUT_GET, "telefono"); //, FILTER_CALLBACK, ['options' => 'checkTlfNumber']);
+            
             //valido que el usuario haya introducido el nombre del nuevo contacto a registrar
             if (empty($nombre)) {
                 echo "<h4 style='color:red;'>¡ATENCIÓN!</h4><p style='color:red;'>El nombre es obligatorio.</p>";
-                
             } else if (empty($telefono)) {
-                
+
                 if (isset($listado[filter_input(INPUT_GET, "nombre")])) {
-                    
+
                     //elimino el contacto (la key) de $listado
                     unset($listado[filter_input(INPUT_GET, "nombre")]);
                     echo "<p>Contacto eliminado.</p>";
-                    
                 } else {
-                    
+
                     echo "<h4 style='color:red;'>¡ATENCIÓN!</h4><p style='color:red;'>El nombre indicado no está registrado.</p>";
                 }
-            } else {
+            } else if (!preg_match("/[0-9]{9}/", $telefono) || strlen($telefono) > 9) {
+
+                echo "<h4 style='color:red;'>¡ATENCIÓN!</h4><p style='color:red;'>El teléfono indicado no es válido."
+                . " Por favor, sigue  el formato 9 dígitos entre 0 y 9, ambos incluidos. </p>";
                 
+            } else {
                 $listado[filter_input(INPUT_GET, "nombre")] = filter_input(INPUT_GET, "telefono");
             }
         }
-        
+
         displayForm();
         displayContacts();
-        
+
         /**
          * Impresión del formulario de registro
          * 
@@ -66,11 +68,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
             }
 
             $output .= "<input type='submit' name='submit' /></form>";
-            
+
             echo $output;
         }
 
-        
         /**
          * Listado de contactos de la agenda
          * 
@@ -92,6 +93,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
 
             echo $list;
         }
+
         ?>
     </body>
 </html>
