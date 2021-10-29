@@ -6,9 +6,7 @@
     </head>
     <body>
         <?php
-        
-        //const POS1 = 2;
-        
+                
         if (filter_input(INPUT_GET, "submit")) {
             $numeros = explode(",", filter_input(INPUT_GET, "numeros")); // split string to an Array
 
@@ -134,6 +132,9 @@
             }
         }
         
+        /**
+         *  Ordenación de una array método selección Directa
+         */
         function seleccionDirecta(){
             $array = [121, 35, 80, 0, 259, 10, 20, 4, 1];
             $min = $pos = "";
