@@ -110,8 +110,15 @@
             return true;
         }
 
+        //remove session cookie
+        // If (isset($_COOKIE[session_name()])) {
+        //  setcookie(session_name(), '', time() - 3600, '/');
+        //  unset($_COOKIE[session_name()]);
+        // }
+        
         // remove all session variables
         //session_unset();
+        
         // destroy the session
         //session_destroy();
         ?>
