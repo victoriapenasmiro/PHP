@@ -105,7 +105,7 @@
                         } else {
                             ${"fileErr" . $i} = "Se ha producido un error en el proceso del fichero en el servidor";
                         }
-                        
+
                         break;
                     case 1:
                         ${"fileErr" . $i} = "Tamaño del fichero inválido, es muy grande";
@@ -159,10 +159,18 @@
                     <input type="text" placeholder="Enter Username" name="uname" value="<?php echo $name; ?>">
                     <label for="file1"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr1; ?></span>
                     <input type="file" name="file1">
-                    <p><?php echo strlen($_FILES["file1"]["name"]) ? "Fichero enviado:" . $_FILES["file1"]["name"] : ""; ?></p>
+                    <p><?php
+                        if (isset($_FILES["file1"])) {
+                            echo strlen($_FILES["file1"]["name"]) ? "Fichero enviado:" . $_FILES["file1"]["name"] : "";
+                        }
+                        ?></p>
                     <label for="file2"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr2; ?></span>
                     <input type="file" name="file2">
-                    <p><?php echo strlen($_FILES["file2"]["name"]) ? "Fichero enviado:" . $_FILES["file2"]["name"] : ""; ?></p>
+                    <p><?php
+                        if (isset($_FILES["file2"])) {
+                            echo strlen($_FILES["file2"]["name"]) ? "Fichero enviado:" . $_FILES["file2"]["name"] : "";
+                        }
+                        ?></p>
 
                 </div>
                 <button type="submit">Login</button>
