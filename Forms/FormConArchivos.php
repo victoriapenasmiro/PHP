@@ -1,12 +1,9 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Formulario Login</title>
-
-        <!-- Plantilla: https://www.w3docs.com/learn-html/html-form-templates.html -->
-
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <title>Formulario son subida de archivos</title>
         <style>
             html, body {
                 display: flex;
@@ -61,19 +58,17 @@
 
         </style>
     </head>
-    <body>         
-
+    <body>
         <?php
-        // define variables and set to empty values
-        $name = $pwd = $email = "";
-        $nameErr = $pwdErr = $emailErr = "";
+        $name = $file = $email = "";
+        $nameErr = $fileErr = $emailErr = "";
 
         //If the REQUEST_METHOD is POST, then the form has been submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $name = filter_input(INPUT_POST, "uname");
-            $pwd = filter_input(INPUT_POST, "psw");
             $email = filter_input(INPUT_POST, "email");
+            $file = $_FILES["file"]["name"];
 
             if (empty($email)) {
                 $emailErr = "Email is required";
@@ -95,14 +90,35 @@
                 }
             }
 
-            if (empty($pwd)) {
-                $pwdErr = "Pwd is required";
-            } else {
-                $pwd = test_input($pwd);
+            //validación de fichero
+            switch ($_FILES["file"]["error"]) {
+                case 0:
+                    $fileErr = "fichero enviado correctamente";
+                    $uploads_dir = '/Users/victoriapenas/Sites/PHP/Forms/archivos';
+                    $tmp_name = $_FILES["file"]["tmp_name"];
+                    // basename() puede evitar ataques de denegación de sistema de ficheros;
+                    $file_name = basename($_FILES["file"]["name"]);
+                    
+                    move_uploaded_file($tmp_name, "$uploads_dir/$file_name");
 
-                if (strlen($pwd) < 8) {
-                    $pwdErr = "La contraseña debe incluir mínimo 8 caracteres";
-                }
+                    break;
+                case 1:
+                    $fileErr = "Tamaño del fichero inválido, es muy grande";
+                    break;
+                case 2:
+                    $fileErr = "Tamaño del fichero inválido, es muy grande";
+                    break;
+                case 4:
+                    $fileErr = "Es obligatorio adjuntar un archivo";
+                    break;
+                case 6:
+                    $fileErr = "Error de servidor, no se ha podido almacenar el fichero.";
+                    break;
+                case 7:
+                    $fileErr = "Error de servidor, el fichero no se ha podido escribir en el disco";
+                    break;
+                default:
+                    $fileErr = "Error de carga";
             }
         }
 
@@ -124,43 +140,39 @@
 
             return $data;
         }
+
+        //instrucción para mover archivos en PHP
+        //https://www.php.net/manual/es/function.move-uploaded-file.php
         ?>
 
-        <!-- The htmlspecialchars() function converts special characters to HTML entities.
-        This means that it will replace HTML characters like < and > with &lt; and &gt;.
-        This prevents attackers from exploiting the code by injecting HTML or Javascript code (Cross-site Scripting attacks)
-        in forms.
-        
-        -->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" >
-            <h1>Login Form</h1>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"  enctype="multipart/form-data">
+            <h1>Formulario con subida de archivos</h1>
             <div class="formcontainer">
                 <hr/>
                 <div class="container">
                     <label for="email"><strong>Email</strong></label><span class="error"> * <?php echo $emailErr; ?></span>
-                    <input type="text" placeholder="Enter your e-mail" name="email" value="<?php echo $email;?>">
+                    <input type="text" placeholder="Enter your e-mail" name="email" value="<?php echo $email; ?>">
                     <label for="uname"><strong>Username</strong></label><span class="error"> * <?php echo $nameErr; ?></span>
-                    <input type="text" placeholder="Enter Username" name="uname" value="<?php echo $name;?>">
-                    <label for="psw"><strong>Password</strong></label><span class="error"> * <?php echo $pwdErr; ?></span>
-                    <input type="password" placeholder="Enter Password" name="psw">
+                    <input type="text" placeholder="Enter Username" name="uname" value="<?php echo $name; ?>">
+                    <label for="file"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr; ?></span>
+                    <input type="file" name="file">
+
+<?php
+$output = "<p>";
+$output .= strlen($file) ? "Fichero enviado:" . $file : "" . "</p>";
+
+echo $output;
+?>
+
                 </div>
                 <button type="submit">Login</button>
-                <div class="container" style="background-color: #eee">
-                    <label style="padding-left: 15px">
-                        <input type="checkbox"  checked="checked" name="remember"> Remember me
-                    </label>
-                    <span class="psw"><a href="#"> Forgot password?</a></span>
-                </div>
 
-                <?php
-                if (!empty($name) && !empty($pwd) && !empty($email)) {
-                    echo "<h2>Datos introducidos:</h2><br>";
-                    echo "$name - $email : $pwd";
-                }
-                ?>
             </div>
+
+<?php
+var_dump($_FILES);
+?>
+
         </form>
-
-
     </body>
 </html>

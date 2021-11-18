@@ -17,7 +17,7 @@
         } else {
             $cookie_value = $cookie_contador + 1;
             echo "Cookie '" . $cookie_name . "' is set!<br>";
-            echo "Value is: " . $cookie_contador;
+            echo "Value is: " . $cookie_value;
         }
 
         setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
