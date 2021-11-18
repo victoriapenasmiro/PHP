@@ -60,15 +60,15 @@
     </head>
     <body>
         <?php
-        $name = $file = $email = "";
-        $nameErr = $fileErr = $emailErr = "";
+        $name = $files = $email = "";
+        $nameErr = $fileErr1 = $fileErr2 = $emailErr = "";
+        $uploads_dir = '/Users/victoriapenas/Sites/PHP/Forms/archivos';
 
         //If the REQUEST_METHOD is POST, then the form has been submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $name = filter_input(INPUT_POST, "uname");
             $email = filter_input(INPUT_POST, "email");
-            $file = $_FILES["file"]["name"];
 
             if (empty($email)) {
                 $emailErr = "Email is required";
@@ -91,38 +91,40 @@
             }
 
             //validación de fichero
-            switch ($_FILES["file"]["error"]) {
-                case 0:
-                    
-                    $uploads_dir = '/Users/victoriapenas/Sites/PHP/Forms/archivos';
-                    $tmp_name = $_FILES["file"]["tmp_name"];
-                    // basename() puede evitar ataques de denegación de sistema de ficheros;
-                    $file_name = basename($_FILES["file"]["name"]);
 
-                    if (move_uploaded_file($tmp_name, "$uploads_dir/$file_name")) {
-                        $fileErr = "fichero enviado correctamente";
-                    } else {
-                        $fileErr = "Se ha producido un error en el proceso del fichero en el servidor";
-                    }
+            for ($i = 1; $i <= count($_FILES); $i++) {
+                switch ($_FILES["file$i"]["error"]) {
+                    case 0:
 
-                    break;
-                case 1:
-                    $fileErr = "Tamaño del fichero inválido, es muy grande";
-                    break;
-                case 2:
-                    $fileErr = "Tamaño del fichero inválido, es muy grande";
-                    break;
-                case 4:
-                    $fileErr = "Es obligatorio adjuntar un archivo";
-                    break;
-                case 6:
-                    $fileErr = "Error de servidor, no se ha podido almacenar el fichero.";
-                    break;
-                case 7:
-                    $fileErr = "Error de servidor, el fichero no se ha podido escribir en el disco";
-                    break;
-                default:
-                    $fileErr = "Error de carga";
+                        $tmp_name = $_FILES["file$i"]["tmp_name"];
+                        // basename() puede evitar ataques de denegación de sistema de ficheros;
+                        $file_name = basename($_FILES["file$i"]["name"]);
+
+                        if (move_uploaded_file($tmp_name, "$uploads_dir/$file_name")) {
+                            ${"fileErr" . $i} = "fichero enviado correctamente";
+                        } else {
+                            ${"fileErr" . $i} = "Se ha producido un error en el proceso del fichero en el servidor";
+                        }
+                        
+                        break;
+                    case 1:
+                        ${"fileErr" . $i} = "Tamaño del fichero inválido, es muy grande";
+                        break;
+                    case 2:
+                        ${"fileErr" . $i} = "Tamaño del fichero inválido, es muy grande";
+                        break;
+                    case 4:
+                        ${"fileErr" . $i} = "Es obligatorio adjuntar un archivo";
+                        break;
+                    case 6:
+                        ${"fileErr" . $i} = "Error de servidor, no se ha podido almacenar el fichero.";
+                        break;
+                    case 7:
+                        ${"fileErr" . $i} = "Error de servidor, el fichero no se ha podido escribir en el disco";
+                        break;
+                    default:
+                        ${"fileErr" . $i} = "Error de carga";
+                }
             }
         }
 
@@ -144,9 +146,6 @@
 
             return $data;
         }
-
-        //instrucción para mover archivos en PHP
-        //https://www.php.net/manual/es/function.move-uploaded-file.php
         ?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"  enctype="multipart/form-data">
@@ -158,15 +157,12 @@
                     <input type="text" placeholder="Enter your e-mail" name="email" value="<?php echo $email; ?>">
                     <label for="uname"><strong>Username</strong></label><span class="error"> * <?php echo $nameErr; ?></span>
                     <input type="text" placeholder="Enter Username" name="uname" value="<?php echo $name; ?>">
-                    <label for="file"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr; ?></span>
-                    <input type="file" name="file">
-
-                    <?php
-                    $output = "<p>";
-                    $output .= strlen($file) ? "Fichero enviado:" . $file : "" . "</p>";
-
-                    echo $output;
-                    ?>
+                    <label for="file1"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr1; ?></span>
+                    <input type="file" name="file1">
+                    <p><?php echo strlen($_FILES["file1"]["name"]) ? "Fichero enviado:" . $_FILES["file1"]["name"] : ""; ?></p>
+                    <label for="file2"><strong>Archivo</strong></label><span class="error"> * <?php echo $fileErr2; ?></span>
+                    <input type="file" name="file2">
+                    <p><?php echo strlen($_FILES["file2"]["name"]) ? "Fichero enviado:" . $_FILES["file2"]["name"] : ""; ?></p>
 
                 </div>
                 <button type="submit">Login</button>
