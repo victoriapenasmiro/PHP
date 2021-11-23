@@ -15,7 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHPWebPage.php to 
         /*
          * En caso de que haya + de un directorio con clases, se podría crear
          * una función por cada ruta y crear un cargador para cada función,
-         * de modo que si al declarar una instancia no se encuentra en el primer cargados
+         * de modo que si al declarar una instancia no se encuentra en el primer cargador
          * se busca en el segundo
          * 
          * Ejemplo:
