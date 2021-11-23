@@ -18,4 +18,4 @@ RewriteBase /PHP/AutenticacionLogin/
 ## scripts
 He creado el recurso db/scripts.sql con todos los scripts de mysql que se han ejecutado
 
-#### Autor: Victoria Peñast/PHP/AutenticacionLogin/";
+#### Autor: Victoria Peñas
