@@ -6,7 +6,7 @@ class Database {
     // specify your own database credentials
     private $host = "localhost";
     private $db_name = "agenda";
-    private $username = "root";
+    private $username = "";
     private $password = "";
     public $conn;
 
