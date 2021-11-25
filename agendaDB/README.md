@@ -11,4 +11,10 @@ Programa una versión de una agenda de contactos utilizando clases y bases de da
 * No se utilizará ningún framework.
 * El fichero de entrega se denominará:  agenda_bd_apel1_apel2_nom.zip
 
+##DESPLEGADO EN EL REMOTO:
+http://victoriapenyasphp.ddns.net/agendaDB/
+
+###IMPORTANTE:
+La conexión a la DB cargada es mi local, pero desd eel remoto he modificado el acceso a DB por el remoto.
+
 #### autor: Victoria Peñas Miró
