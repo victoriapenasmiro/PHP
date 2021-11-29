@@ -15,6 +15,6 @@ Programa una versión de una agenda de contactos utilizando clases y bases de da
 http://victoriapenyasphp.ddns.net/agendaDB/
 
 ###IMPORTANTE:
-La conexión a la DB cargada es mi local, pero desd eel remoto he modificado el acceso a DB por el remoto.
+La conexión a la DB cargada es mi local, pero desde el remoto he modificado el acceso a DB por el remoto.
 
 #### autor: Victoria Peñas Miró

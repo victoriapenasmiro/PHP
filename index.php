@@ -13,4 +13,7 @@ session_unset();
 // destroy the session
 session_destroy();
 
+
+var_dump(PHP_INT_MAX);
+var_dump(PHP_INT_MAX + 1);
 ?>

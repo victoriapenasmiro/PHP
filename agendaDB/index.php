@@ -11,10 +11,7 @@ include_once "clases/Contacto.php";
 include_once "layout_head.php";
 
 // get database connection
-$database = new Database();
-$db = $database->getConnection();
-
-$contacto = new Contacto($db);
+$contacto = new Contacto(Database::getConnection());
 
 $nombre = $telefono = $created = "";
 
